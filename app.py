@@ -37,30 +37,35 @@ def record(community, user):
 		# print("\nMetadata")
 		dic = record[1].getMap()
 		dic['datestamp'] = str(record[0].datestamp())
-		identifier = dic['identifier'][0]
+		identifier = dic['identifier'][0].split("/")[-1]
 		statistics = webscrapping(identifier)
 		dic['views'] = statistics[0]
 		dic['downloads'] = statistics[1]
+		dic['id'] = identifier.split("/")[-1]
 		r = json.dumps(dic, indent=4, sort_keys=True)
 
 		print(identifier)
 
 		# res = es.search(index="prueba", body={"query": {"match": {"title": title[0], "creator":creator[0]}}})
 		if es.indices.exists(index=community):
-			res = es.search(index=community, body={"query": {"match": {"identifier": identifier}}})
+			res = es.search(index=community, body={"query": {"term": {"id": identifier}}})
 			print("Documents found", res['hits']['total']['value'])
 			if res['hits']['total']['value'] == 0:
-				es.index(index=community, body=r)
-			if res['hits']['total']['value'] == 0:
-				es.index(index=community, body=r)
+				response = es.index(index=community, body=r)
+				print(response['result'])
+			elif res['hits']['total']['value'] == 1:
+				response = es.index(index=community, id=res['hits']['hits'][0]['_id'], body=r)
+				print(response['result'])
 			else:
 				print("Error, multiple resources found with the id", identifier)
 		else:
-			es.index(index=community, body=r)
+			response = es.index(index=community, body=r)
+			print(response['result'])
 
 
-def webscrapping(id):
-	websource = urllib.request.urlopen(id)
+def webscrapping(identifier):
+	webpage = "https://zenodo.org/record/" + identifier
+	websource = urllib.request.urlopen(webpage)
 	soup = BeautifulSoup(websource.read(), "html.parser")
 
 	views = soup.find('span',{'class':'stats-data'}).text
