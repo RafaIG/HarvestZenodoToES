@@ -34,7 +34,6 @@ def record(community, user):
 		# print(record[0].setSpec())
 		# print(record[0].isDeleted())
 
-		# print("\nMetadata")
 		dic = record[1].getMap()
 		dic['datestamp'] = str(record[0].datestamp())
 		identifier = dic['identifier'][0].split("/")[-1]
