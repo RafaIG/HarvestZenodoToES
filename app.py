@@ -15,7 +15,7 @@ config.read('config.ini')
 # URL = 'https://zenodo.org/oai2d?verb=ListRecords&set=user-actionprojecteu'
 URL = config.get('elasticsearch', 'url')
 
-es = Elasticsearch([{'host': 'localhost', 'port': '9200'}])
+es = Elasticsearch([{'host': '0.0.0.0', 'port': '9200'}])
 
 def init(user):
 	fullURL=URL+user
