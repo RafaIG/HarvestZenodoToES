@@ -5,6 +5,9 @@ import json
 from elasticsearch import Elasticsearch
 from configparser import ConfigParser
 
+from bs4 import BeautifulSoup
+import urllib.request
+
 config = ConfigParser()
 config.read('config.ini')
 
@@ -31,33 +34,42 @@ def record(community, user):
 		# print(record[0].setSpec())
 		# print(record[0].isDeleted())
 
-		# print("\nMetadata")
 		dic = record[1].getMap()
 		dic['datestamp'] = str(record[0].datestamp())
+		identifier = dic['identifier'][0].split("/")[-1]
+		statistics = webscrapping(identifier)
+		dic['views'] = statistics[0]
+		dic['downloads'] = statistics[1]
+		dic['id'] = identifier.split("/")[-1]
 		r = json.dumps(dic, indent=4, sort_keys=True)
-		# print(r)
-		title = record[1]["title"]
-		creator = record[1]["creator"]
-		date = record[1]["date"]
-		contributor = record[1]["contributor"]
-		rights = record[1]["rights"]
-		description = record[1]["description"]
-		identifier = record[1]["identifier"]
-		language = record[1]["language"]
-		relation = record[1]["relation"]
-		subject = record[1]["subject"]
-		type = record[1]["type"]
-		print(identifier[0])
+
+		print(identifier)
 
 		# res = es.search(index="prueba", body={"query": {"match": {"title": title[0], "creator":creator[0]}}})
 		if es.indices.exists(index=community):
-			res = es.search(index=community, body={"query": {"bool": {"should": [{"match": {"identifier": identifier[0]}}]}}})
-			print(res['hits']['total']['value'])
+			res = es.search(index=community, body={"query": {"term": {"id": identifier}}})
+			print("Documents found", res['hits']['total']['value'])
 			if res['hits']['total']['value'] == 0:
-				es.index(index=community, body=r)
+				response = es.index(index=community, body=r)
+				print(response['result'])
+			elif res['hits']['total']['value'] == 1:
+				response = es.index(index=community, id=res['hits']['hits'][0]['_id'], body=r)
+				print(response['result'])
+			else:
+				print("Error, multiple resources found with the id", identifier)
 		else:
-			es.index(index=community, body=r)
+			response = es.index(index=community, body=r)
+			print(response['result'])
 
+
+def webscrapping(identifier):
+	webpage = "https://zenodo.org/record/" + identifier
+	websource = urllib.request.urlopen(webpage)
+	soup = BeautifulSoup(websource.read(), "html.parser")
+
+	views = soup.find('span',{'class':'stats-data'}).text
+	downloads = soup.find('span',{'class':'stats-data'}).find_next('span').text
+	return [views,downloads]
 
 
 
