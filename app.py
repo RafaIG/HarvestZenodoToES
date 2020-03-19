@@ -2,8 +2,12 @@ from oaipmh.client import Client
 from oaipmh.metadata import MetadataRegistry, oai_dc_reader
 
 import json
+from datetime import datetime
+
 from elasticsearch import Elasticsearch
 from configparser import ConfigParser
+
+from influxdb import InfluxDBClient
 
 from bs4 import BeautifulSoup
 import urllib.request
@@ -12,6 +16,9 @@ import logging
 
 config = ConfigParser()
 config.read('config.ini')
+
+clientInflux = InfluxDBClient(host='localhost', port=8086)
+# InfluxDBClient(host, port, user, password, dbname)
 
 URL = config.get('zenodo', 'url')
 
@@ -43,22 +50,42 @@ def record(community, user):
 		dic['id'] = identifier.split("/")[-1]
 		r = json.dumps(dic, indent=4, sort_keys=True)
 
-		if es.indices.exists(index=community):
-			res = es.search(index=community, body={"query": {"term": {"id": identifier}}})
-			if res['hits']['total']['value'] == 0:
-				response = es.index(index=community, body=r)
-				logging.info('%s created',identifier)
-			elif res['hits']['total']['value'] == 1:
-				response = es.index(index=community, id=res['hits']['hits'][0]['_id'], body=r)
-				logging.info('%s updated',identifier)
-			else:
-				logging.error("Error, multiple resources found with the id %s", identifier)
-		else:
-			response = es.index(index=community, body=r)
-			logging.info('indes %s created', community)
-			logging.info('%s created',identifier)
+		insertElactic(community, identifier, r)
+		insertInflux(community, identifier, statistics[0], statistics[1])
 
-	logging.info('From %s the file %s saved properly', user, identifier)
+
+def insertInflux(community, identifier, views, downloads):
+	json_body = [{
+			"measurement": "statistics",
+	        "tags": {
+	            "id": identifier,
+	            "community": community },
+	        "time": str(datetime.now()),
+	        "fields": {
+	            "views": views,
+	            "downloads": downloads
+	        }
+	    }]
+	res = clientInflux.write_points(json_body)
+	logging.info('File %s of the community %s saved properly in influxdb with response: %s', identifier, community, res)
+
+
+def insertElactic(community, identifier, r):
+	if es.indices.exists(index=community):
+		res = es.search(index=community, body={"query": {"term": {"id": identifier}}})
+		if res['hits']['total']['value'] == 0:
+			response = es.index(index=community, body=r)
+			logging.info('%s created',identifier)
+		elif res['hits']['total']['value'] == 1:
+			response = es.index(index=community, id=res['hits']['hits'][0]['_id'], body=r)
+			logging.info('%s updated',identifier)
+		else:
+			logging.error("Error, multiple resources found with the id %s", identifier)
+	else:
+		response = es.index(index=community, body=r)
+		logging.info('indes %s created', community)
+		logging.info('%s created',identifier)
+	logging.info('From %s the file %s saved properly', community, identifier)
 
 
 def webscrapping(identifier):
@@ -74,7 +101,9 @@ def webscrapping(identifier):
 
 def main():
 	logging.info('The harvester starts')
-	communities = config.items( "communities" )
+	clientInflux.create_database('dataportal')
+	clientInflux.switch_database('dataportal')
+	communities = config.items("communities")
 	for community, user in communities:
 		record(community, user)
 	logging.info('The harvester finishes')
