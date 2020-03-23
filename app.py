@@ -17,14 +17,14 @@ import logging
 config = ConfigParser()
 config.read('config.ini')
 
-clientInflux = InfluxDBClient(host='localhost', port=8086)
-# InfluxDBClient(host, port, user, password, dbname)
+#clientInflux = InfluxDBClient(host='localhost', port=8086)
+clientInflux = InfluxDBClient('192.168.123.55', '8086', 'action', 'admin@ct1on')
 
 URL = config.get('zenodo', 'url')
 
 es = Elasticsearch(hosts=config.get('elasticsearch', 'url'))
 
-logging.basicConfig(filename='log/harvesterlog.log', filemode='w', level=logging.INFO
+logging.basicConfig(filename='log/'+str(datetime.now().date())+'.log', filemode='w', level=logging.INFO
 	, format='%(asctime)s %(levelname)s %(name)s : %(message)s')
 logging.info('This will get logged to a file')
 
@@ -39,6 +39,8 @@ def init(user):
 
 def record(community, user):
 	client=init(user)
+	views = 0
+	downloads = 0
 	for record in client.listRecords(metadataPrefix='oai_dc'):
 
 		dic = record[1].getMap()
@@ -46,12 +48,15 @@ def record(community, user):
 		identifier = dic['identifier'][0].split("/")[-1]
 		statistics = webscrapping(identifier)
 		dic['views'] = statistics[0]
+		views += int(statistics[0])
 		dic['downloads'] = statistics[1]
+		downloads += int(statistics[1])
 		dic['id'] = identifier.split("/")[-1]
 		r = json.dumps(dic, indent=4, sort_keys=True)
 
 		insertElactic(community, identifier, r)
 		insertInflux(community, identifier, statistics[0], statistics[1])
+	insertElacticCommunity(community, views, downloads)
 
 
 def insertInflux(community, identifier, views, downloads):
@@ -70,6 +75,29 @@ def insertInflux(community, identifier, views, downloads):
 	logging.info('File %s of the community %s saved properly in influxdb with response: %s', identifier, community, res)
 
 
+def insertElacticCommunity(community, views, downloads):
+	r = {
+	    'community': community,
+	    'views': views,
+	    'downloads': downloads,
+	    'time': str(datetime.now())
+	}
+	if es.indices.exists(index='communities'):
+		res = es.search(index='communities', body={"query": {"term": {"community": community}}})
+		if res['hits']['total']['value'] == 0:
+			response = es.index(index='communities', body=r)
+			logging.info('Community %s updated with %s views, %s downloads', community, views, downloads)
+		elif res['hits']['total']['value'] == 1:
+			response = es.index(index='communities', id=res['hits']['hits'][0]['_id'], body=r)
+			logging.info('Community %s updated with %s views, %s downloads', community, views, downloads)
+		else:
+			logging.error("Error, multiple resources found for %s", community)
+	else:
+		response = es.index(index='communities', body=r)
+		logging.info('index communities created')
+		logging.info('Community %s updated with %s views, %s downloads', community, views, downloads)
+
+
 def insertElactic(community, identifier, r):
 	if es.indices.exists(index=community):
 		res = es.search(index=community, body={"query": {"term": {"id": identifier}}})
@@ -83,8 +111,8 @@ def insertElactic(community, identifier, r):
 			logging.error("Error, multiple resources found with the id %s", identifier)
 	else:
 		response = es.index(index=community, body=r)
-		logging.info('indes %s created', community)
-		logging.info('%s created',identifier)
+		logging.info('index %s created', community)
+		logging.info('%s created', identifier)
 	logging.info('From %s the file %s saved properly', community, identifier)
 
 
