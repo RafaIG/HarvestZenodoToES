@@ -17,8 +17,8 @@ import logging
 config = ConfigParser()
 config.read('config.ini')
 
-clientInflux = InfluxDBClient(host='localhost', port=8086)
-#clientInflux = InfluxDBClient('192.168.123.55', '8086', 'action', 'admin@ct1on')
+#clientInflux = InfluxDBClient(host='localhost', port=8086)
+clientInflux = InfluxDBClient('192.168.123.55', '8086', 'action', 'admin@ct1on')
 
 URL = config.get('zenodo', 'url')
 
