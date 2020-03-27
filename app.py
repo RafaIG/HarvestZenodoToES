@@ -41,8 +41,10 @@ def record(community, user):
 	client=init(user)
 	views = 0
 	downloads = 0
+	documents = 0
 	for record in client.listRecords(metadataPrefix='oai_dc'):
 
+		documents += 1
 		dic = record[1].getMap()
 		dic['datestamp'] = str(record[0].datestamp())
 		identifier = dic['identifier'][0].split("/")[-1]
@@ -55,11 +57,11 @@ def record(community, user):
 		r = json.dumps(dic, indent=4, sort_keys=True)
 
 		insertElactic(community, identifier, r)
-		insertInflux(community, identifier, statistics[0], statistics[1])
-	insertElacticCommunity(community, views, downloads)
+		insertInflux(community, identifier, statistics[0], statistics[1], documents)
+	insertElacticCommunity(community, views, downloads, documents)
 
 
-def insertInflux(community, identifier, views, downloads):
+def insertInflux(community, identifier, views, downloads, documents):
 	json_body = [{
 			"measurement": "statistics",
 	        "tags": {
@@ -68,25 +70,27 @@ def insertInflux(community, identifier, views, downloads):
 	        "time": str(datetime.now()),
 	        "fields": {
 	            "views": views,
-	            "downloads": downloads
+	            "downloads": downloads,
+	            "documents": documents
 	        }
 	    }]
 	res = clientInflux.write_points(json_body)
 	logging.info('File %s of the community %s saved properly in influxdb with response: %s', identifier, community, res)
 
 
-def insertElacticCommunity(community, views, downloads):
+def insertElacticCommunity(community, views, downloads, documents):
 	r = {
 	    'community': community,
 	    'views': views,
 	    'downloads': downloads,
+	    'documents': documents,
 	    'time': str(datetime.now())
 	}
 	if es.indices.exists(index='communities'):
-		res = es.search(index='communities', body={"query": {"term": {"community": community}}})
+		res = es.search(index='communities', body={"query": {"query_string": {"query": 'community'+':'+community}}})
 		if res['hits']['total']['value'] == 0:
 			response = es.index(index='communities', body=r)
-			logging.info('Community %s updated with %s views, %s downloads', community, views, downloads)
+			logging.info('Community %s created with %s views, %s downloads', community, views, downloads)
 		elif res['hits']['total']['value'] == 1:
 			response = es.index(index='communities', id=res['hits']['hits'][0]['_id'], body=r)
 			logging.info('Community %s updated with %s views, %s downloads', community, views, downloads)
@@ -95,7 +99,7 @@ def insertElacticCommunity(community, views, downloads):
 	else:
 		response = es.index(index='communities', body=r)
 		logging.info('index communities created')
-		logging.info('Community %s updated with %s views, %s downloads', community, views, downloads)
+		logging.info('Community %s created with %s views, %s downloads', community, views, downloads)
 
 
 def insertElactic(community, identifier, r):

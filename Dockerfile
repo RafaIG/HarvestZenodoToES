@@ -6,4 +6,4 @@ RUN pip install -r requirements.txt
 CMD ["python","app.py"]
 
 # sudo docker build -t harvester .
-# docker run --name myharvester -v /var/log/harvestZenodo:/opt/log -d harvester
+# docker run --name myharvester --network host -v /var/log/harvestZenodo:/opt/log -d harvester
