@@ -1,0 +1,87 @@
+2020-04-01 14:16:30,348 INFO root : This will get logged to a file
+2020-04-01 14:16:30,349 INFO root : The harvester starts
+2020-04-01 14:16:30,397 INFO root : The community user-actionprojecteu harvested
+2020-04-01 14:16:31,994 INFO elasticsearch : HEAD http://127.0.0.1:9200/action [status:200 request:0.012s]
+2020-04-01 14:16:32,003 INFO elasticsearch : GET http://127.0.0.1:9200/action/_search [status:200 request:0.008s]
+2020-04-01 14:16:32,110 INFO elasticsearch : PUT http://127.0.0.1:9200/action/_doc/n29rG3EBlGF0OkXHei1q [status:200 request:0.107s]
+2020-04-01 14:16:32,110 INFO root : 3687582 updated
+2020-04-01 14:16:32,111 INFO root : From action the file 3687582 saved properly
+2020-04-01 14:16:32,154 INFO root : File 3687582 of the community action saved properly in influxdb with response: True
+2020-04-01 14:16:33,498 INFO elasticsearch : HEAD http://127.0.0.1:9200/action [status:200 request:0.004s]
+2020-04-01 14:16:33,507 INFO elasticsearch : GET http://127.0.0.1:9200/action/_search [status:200 request:0.008s]
+2020-04-01 14:16:33,615 INFO elasticsearch : PUT http://127.0.0.1:9200/action/_doc/nm9rG3EBlGF0OkXHdC17 [status:200 request:0.108s]
+2020-04-01 14:16:33,615 INFO root : 3723477 updated
+2020-04-01 14:16:33,615 INFO root : From action the file 3723477 saved properly
+2020-04-01 14:16:33,644 INFO root : File 3723477 of the community action saved properly in influxdb with response: True
+2020-04-01 14:16:34,990 INFO elasticsearch : HEAD http://127.0.0.1:9200/action [status:200 request:0.005s]
+2020-04-01 14:16:34,997 INFO elasticsearch : GET http://127.0.0.1:9200/action/_search [status:200 request:0.006s]
+2020-04-01 14:16:35,154 INFO elasticsearch : PUT http://127.0.0.1:9200/action/_doc/oG9rG3EBlGF0OkXHgC3S [status:200 request:0.157s]
+2020-04-01 14:16:35,154 INFO root : 3725488 updated
+2020-04-01 14:16:35,155 INFO root : From action the file 3725488 saved properly
+2020-04-01 14:16:35,209 INFO root : File 3725488 of the community action saved properly in influxdb with response: True
+2020-04-01 14:16:36,549 INFO elasticsearch : HEAD http://127.0.0.1:9200/action [status:200 request:0.005s]
+2020-04-01 14:16:36,556 INFO elasticsearch : GET http://127.0.0.1:9200/action/_search [status:200 request:0.006s]
+2020-04-01 14:16:36,660 INFO elasticsearch : PUT http://127.0.0.1:9200/action/_doc/om9rG3EBlGF0OkXHjC2E [status:200 request:0.104s]
+2020-04-01 14:16:36,660 INFO root : 3689498 updated
+2020-04-01 14:16:36,661 INFO root : From action the file 3689498 saved properly
+2020-04-01 14:16:36,704 INFO root : File 3689498 of the community action saved properly in influxdb with response: True
+2020-04-01 14:16:38,128 INFO elasticsearch : HEAD http://127.0.0.1:9200/action [status:200 request:0.004s]
+2020-04-01 14:16:38,135 INFO elasticsearch : GET http://127.0.0.1:9200/action/_search [status:200 request:0.007s]
+2020-04-01 14:16:38,244 INFO elasticsearch : PUT http://127.0.0.1:9200/action/_doc/o29rG3EBlGF0OkXHki2b [status:200 request:0.109s]
+2020-04-01 14:16:38,244 INFO root : 3696492 updated
+2020-04-01 14:16:38,244 INFO root : From action the file 3696492 saved properly
+2020-04-01 14:16:38,273 INFO root : File 3696492 of the community action saved properly in influxdb with response: True
+2020-04-01 14:16:39,633 INFO elasticsearch : HEAD http://127.0.0.1:9200/action [status:200 request:0.005s]
+2020-04-01 14:16:39,639 INFO elasticsearch : GET http://127.0.0.1:9200/action/_search [status:200 request:0.006s]
+2020-04-01 14:16:39,705 INFO elasticsearch : PUT http://127.0.0.1:9200/action/_doc/oW9rG3EBlGF0OkXHhi2y [status:200 request:0.065s]
+2020-04-01 14:16:39,705 INFO root : 3690549 updated
+2020-04-01 14:16:39,706 INFO root : From action the file 3690549 saved properly
+2020-04-01 14:16:39,743 INFO root : File 3690549 of the community action saved properly in influxdb with response: True
+2020-04-01 14:16:39,748 INFO elasticsearch : HEAD http://127.0.0.1:9200/communities [status:200 request:0.003s]
+2020-04-01 14:16:39,755 INFO elasticsearch : GET http://127.0.0.1:9200/communities/_search [status:200 request:0.007s]
+2020-04-01 14:16:39,819 INFO elasticsearch : PUT http://127.0.0.1:9200/communities/_doc/qW9zG3EBlGF0OkXHzi36 [status:200 request:0.064s]
+2020-04-01 14:16:39,819 INFO root : Community action updated with 2190 views, 65 downloads
+2020-04-01 14:16:39,844 INFO root : The community action saved properly in influxdb with response: True
+2020-04-01 14:16:39,845 INFO root : The community user-street-spectra harvested
+2020-04-01 14:16:41,538 INFO elasticsearch : HEAD http://127.0.0.1:9200/street-spectra [status:200 request:0.006s]
+2020-04-01 14:16:41,545 INFO elasticsearch : GET http://127.0.0.1:9200/street-spectra/_search [status:200 request:0.007s]
+2020-04-01 14:16:41,664 INFO elasticsearch : PUT http://127.0.0.1:9200/street-spectra/_doc/kW9gG3EBlGF0OkXHVC24 [status:200 request:0.118s]
+2020-04-01 14:16:41,665 INFO root : 3725488 updated
+2020-04-01 14:16:41,665 INFO root : From street-spectra the file 3725488 saved properly
+2020-04-01 14:16:41,693 INFO root : File 3725488 of the community street-spectra saved properly in influxdb with response: True
+2020-04-01 14:16:43,070 INFO elasticsearch : HEAD http://127.0.0.1:9200/street-spectra [status:200 request:0.004s]
+2020-04-01 14:16:43,077 INFO elasticsearch : GET http://127.0.0.1:9200/street-spectra/_search [status:200 request:0.006s]
+2020-04-01 14:16:43,180 INFO elasticsearch : PUT http://127.0.0.1:9200/street-spectra/_doc/h-SH6HABWzrtAxh0xrWj [status:200 request:0.102s]
+2020-04-01 14:16:43,180 INFO root : 3696492 updated
+2020-04-01 14:16:43,180 INFO root : From street-spectra the file 3696492 saved properly
+2020-04-01 14:16:43,235 INFO root : File 3696492 of the community street-spectra saved properly in influxdb with response: True
+2020-04-01 14:16:43,239 INFO elasticsearch : HEAD http://127.0.0.1:9200/communities [status:200 request:0.004s]
+2020-04-01 14:16:43,281 INFO elasticsearch : GET http://127.0.0.1:9200/communities/_search [status:200 request:0.042s]
+2020-04-01 14:16:43,339 INFO elasticsearch : PUT http://127.0.0.1:9200/communities/_doc/qm9zG3EBlGF0OkXH4C03 [status:200 request:0.058s]
+2020-04-01 14:16:43,339 INFO root : Community street-spectra updated with 500 views, 22 downloads
+2020-04-01 14:16:43,419 INFO root : The community street-spectra saved properly in influxdb with response: True
+2020-04-01 14:16:43,420 INFO root : The community user-students-and-air-pollution harvested
+2020-04-01 14:16:45,057 INFO elasticsearch : HEAD http://127.0.0.1:9200/students-and-air-pollution [status:200 request:0.005s]
+2020-04-01 14:16:45,064 INFO elasticsearch : GET http://127.0.0.1:9200/students-and-air-pollution/_search [status:200 request:0.007s]
+2020-04-01 14:16:45,184 INFO elasticsearch : PUT http://127.0.0.1:9200/students-and-air-pollution/_doc/lG9gG3EBlGF0OkXHbC3G [status:200 request:0.120s]
+2020-04-01 14:16:45,185 INFO root : 3730465 updated
+2020-04-01 14:16:45,185 INFO root : From students-and-air-pollution the file 3730465 saved properly
+2020-04-01 14:16:45,213 INFO root : File 3730465 of the community students-and-air-pollution saved properly in influxdb with response: True
+2020-04-01 14:16:46,561 INFO elasticsearch : HEAD http://127.0.0.1:9200/students-and-air-pollution [status:200 request:0.005s]
+2020-04-01 14:16:46,567 INFO elasticsearch : GET http://127.0.0.1:9200/students-and-air-pollution/_search [status:200 request:0.006s]
+2020-04-01 14:16:46,678 INFO elasticsearch : PUT http://127.0.0.1:9200/students-and-air-pollution/_doc/lW9gG3EBlGF0OkXHcy3H [status:200 request:0.111s]
+2020-04-01 14:16:46,678 INFO root : 3730457 updated
+2020-04-01 14:16:46,679 INFO root : From students-and-air-pollution the file 3730457 saved properly
+2020-04-01 14:16:46,741 INFO root : File 3730457 of the community students-and-air-pollution saved properly in influxdb with response: True
+2020-04-01 14:16:48,072 INFO elasticsearch : HEAD http://127.0.0.1:9200/students-and-air-pollution [status:200 request:0.005s]
+2020-04-01 14:16:48,078 INFO elasticsearch : GET http://127.0.0.1:9200/students-and-air-pollution/_search [status:200 request:0.006s]
+2020-04-01 14:16:48,207 INFO elasticsearch : PUT http://127.0.0.1:9200/students-and-air-pollution/_doc/k29gG3EBlGF0OkXHZi0s [status:200 request:0.128s]
+2020-04-01 14:16:48,207 INFO root : 3730478 updated
+2020-04-01 14:16:48,208 INFO root : From students-and-air-pollution the file 3730478 saved properly
+2020-04-01 14:16:48,246 INFO root : File 3730478 of the community students-and-air-pollution saved properly in influxdb with response: True
+2020-04-01 14:16:48,250 INFO elasticsearch : HEAD http://127.0.0.1:9200/communities [status:200 request:0.003s]
+2020-04-01 14:16:48,259 INFO elasticsearch : GET http://127.0.0.1:9200/communities/_search [status:200 request:0.008s]
+2020-04-01 14:16:48,342 INFO elasticsearch : PUT http://127.0.0.1:9200/communities/_doc/q29zG3EBlGF0OkXH8i3t [status:200 request:0.082s]
+2020-04-01 14:16:48,343 INFO root : Community students-and-air-pollution updated with 371 views, 6 downloads
+2020-04-01 14:16:48,368 INFO root : The community students-and-air-pollution saved properly in influxdb with response: True
+2020-04-01 14:16:48,368 INFO root : The harvester finishes
