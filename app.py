@@ -57,11 +57,28 @@ def record(community, user):
 		r = json.dumps(dic, indent=4, sort_keys=True)
 
 		insertElactic(community, identifier, r)
-		insertInflux(community, identifier, statistics[0], statistics[1], documents)
+		insertInflux(community, identifier, views, downloads)
 	insertElacticCommunity(community, views, downloads, documents)
+	insertInfluxCommunity(community, views, downloads, documents)
 
 
-def insertInflux(community, identifier, views, downloads, documents):
+def insertInfluxCommunity(community, views, downloads, documents):
+	json_body = [{
+			"measurement": "statistics",
+	        "tags": {
+	            "id": community,
+	            "community": 'communities' },
+	        "time": str(datetime.now()),
+	        "fields": {
+	            "views": views,
+	            "downloads": downloads,
+	            "documents": documents
+	        }
+	    }]
+	res = clientInflux.write_points(json_body)
+	logging.info('The community %s saved properly in influxdb with response: %s', community, res)
+
+def insertInflux(community, identifier, views, downloads):
 	json_body = [{
 			"measurement": "statistics",
 	        "tags": {
@@ -70,8 +87,7 @@ def insertInflux(community, identifier, views, downloads, documents):
 	        "time": str(datetime.now()),
 	        "fields": {
 	            "views": views,
-	            "downloads": downloads,
-	            "documents": documents
+	            "downloads": downloads
 	        }
 	    }]
 	res = clientInflux.write_points(json_body)
