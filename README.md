@@ -8,7 +8,7 @@ ODP_ZenodoHarvester is a Python project to harvest the [Zenodo's](https://zenodo
 ## Files
 
 The project files in order are:
- - [log](log/) : is the folder in which the logs will be placed.
+ - [log](log/) : is the folder in which the logs will be placed. There is a [log example](log/example.log) inside.
  - [Dockerfile](Dockerfile) : file for dockerize the api.
  - [README](README) : contains the description and relevant information.
  - [app.py](app.py) : is the python program file.
@@ -54,7 +54,7 @@ InfluxDB helps keep track of views and downloads for the communities. We use the
 
 ### Logging
 
-All the process is tracked in a log, that is created every day (e.g. 2020-04-21.log  2020-04-27.log) in the [log](log/) folder.
+All the process is tracked in a log, that is created every day (e.g. 2020-04-21.log  2020-04-27.log) in the [log](log/) folder. There is a [log example](log/example.log) inside.
 
 
 ## Configuration and dependencies
@@ -67,7 +67,7 @@ The [config.ini](config.ini)  is the configuration file of the program. It conta
 
 The [requirements.txt](requirements.txt) contains the python libraries needed for the proper operation of the program. They could be installed by:
 
-´pip install -r requirements.txt´
+`pip install -r requirements.txt`
 
 
 ## Appendix I: configure Elasticsearch
