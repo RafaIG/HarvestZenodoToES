@@ -67,7 +67,7 @@ The [config.ini](config.ini)  is the configuration file of the program. It conta
 
 The [requirements.txt](requirements.txt) contains the python libraries needed for the proper operation of the program. They could be installed by:
 
-´pip install -r requirements.txt´
+`pip install -r requirements.txt`
 
 
 ## Appendix I: configure Elasticsearch
