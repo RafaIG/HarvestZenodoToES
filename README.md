@@ -28,7 +28,7 @@ Finally, to run the image with docker:
 
 The above command map the log folder of the docker with the folder of the host machine `/var/log/harvestZenodo`, that could be change at will. It also shares the host's network, making it easier to communicate with Elasticsearch.
 
-Once we create it, to run it every day (e.g. at 1 AM), we need to start and erase the image periodically. So, we will using crontab. We courl edit crontab with:
+Once we create it, to run it every day (e.g. at 1 AM), we need to start and erase the image periodically. So, we will using crontab. We courd edit crontab with:
 
 `crontab -e`
 
