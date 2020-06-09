@@ -50,9 +50,9 @@ def record(community, user):
 		identifier = dic['identifier'][0].split("/")[-1]
 		statistics = webscrapping(identifier)
 		dic['views'] = statistics[0]
-		views += int(statistics[0])
+		views += int(statistics[0].replace(',',''))
 		dic['downloads'] = statistics[1]
-		downloads += int(statistics[1])
+		downloads += int(statistics[1].replace(',',''))
 		dic['id'] = identifier.split("/")[-1]
 		r = json.dumps(dic, indent=4, sort_keys=True)
 
